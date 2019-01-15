@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'medicamento')}">
+
+<body>
+
+  <h2>Medicamento</h2>
+  <form th:object="${medicamento}" class="form-horizontal" id="add-medicamento-form" method="post">
+    <div class="form-group has-feedback">
+      <input
+        th:replace="~{fragments/inputField :: input ('Nombre', 'nombre', 'text')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Ingrediente(s) activo(s)', 'ingrediente_activo', 'text')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Presentacion', 'presentacion', 'text')}" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          th:with="text=${medicamento['new']} ? 'Agregar medicamento' : 'Actualizar medicamento'"
+          class="btn btn-default" type="submit" th:text="${text}">Add
+          Owner</button>
+          
+      </div>
+    </div>
+  </form>
+</body>
+</html>

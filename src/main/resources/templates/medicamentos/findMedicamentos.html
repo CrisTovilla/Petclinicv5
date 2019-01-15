@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'medicamento')}">
+
+<body>
+
+  <h2 th:text="#{fm}">Find Med</h2>
+
+  <form th:object="${medicamento}" th:action="@{/medicamento}" method="get"
+    class="form-horizontal" id="search-medicamento-form">
+    <div class="form-group">
+      <div class="control-group" id="nombreGroup">
+        <label th:text="#{fn}" class="col-sm-2 control-label">Last name </label>
+        <div class="col-sm-10">
+          <input class="form-control" th:field="*{nombre}" size="30"
+            maxlength="80" /> <span class="help-inline"><div
+              th:if="${#fields.hasAnyErrors()}">
+              <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+            </div></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button th:text="#{fm}" type="submit" class="btn btn-default">Find
+          Med</button>
+      </div>
+    </div>
+
+  </form>
+
+  <br />
+  <a th:text="#{amed}" class="btn btn-default" th:href="@{/medicamento/new}">Add Med</a>
+
+</body>
+</html>

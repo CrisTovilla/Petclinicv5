@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
+
+<body>
+
+    <h2 th:text="#{Vet}">Vets</h2>
+  <form th:object="${vet}" class="form-horizontal" id="add-owner-form" method="post">
+    <div class="form-group has-feedback">
+        <input
+        th:replace="~{fragments/inputField :: input (#{Name}, 'firstName', 'text')}" />
+        
+         <input
+        th:replace="~{fragments/inputField :: input (#{Last}, 'lastName', 'text')}" />
+         
+           <input
+        th:replace="~{fragments/selectField :: select (#{Special},'specialty', ${specialties})}" />
+        
+<!--      <input
+        th:replace="~{fragments/inputField :: input (#{Special}, 'specialty', 'text')}" />-->
+
+
+<!--<div style = "padding-left: 130px" class = "form-group">
+    <label>Especialidad: </label>
+<select class=" form-control " name="specialty">
+    <option value="none">none</option>
+    <option value="dentisty">dentisty</option>
+    <option value="surgery">surgery</option>
+    <option value="radiology">radiology</option>  
+</select>-->
+</div>
+
+      <input
+        th:replace="~{fragments/inputField :: input (#{Telephone}, 'telephone', 'text')}" />
+      
+       <input
+        th:replace="~{fragments/inputField :: input (#{Hour}, 'Schedule', 'text')}" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          th:with="text=${vet['new']} ? #{CV} : 'Actualizar vet'"
+          class="btn btn-default" type="submit" th:text="${text}">Add vet</button>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
