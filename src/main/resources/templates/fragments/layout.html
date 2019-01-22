@@ -54,6 +54,11 @@
                       <span>Find owners</span>
                   </li>
   
+                  <li th:replace="::menuItem ('/users/find','users','find users','search',#{msg_user_find})">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      <span>Find user</span>
+                  </li>
+                  
                   <li th:replace="::menuItem ('/vets/find','vets','veterinarians','th-list',#{v})">
                       <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                       <span>Veterinarians</span>
