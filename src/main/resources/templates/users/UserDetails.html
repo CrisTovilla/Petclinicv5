@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+  <body>
+  
+  
+    <h2 th:text="#{oi}">Owner Informationss</h2>
+  
+  
+    <table class="table table-striped" th:object="${owner}">
+      <tr>
+        <th th:text="#{fn}">Name</th>
+        <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
+      </tr>
+      <tr>
+        <th th:text="#{ad}">Address</th>
+        <td th:text="*{address}" /></td>
+      </tr>
+      <tr>
+        <th th:text="#{cd}">City</th>
+        <td th:text="*{city}" /></td>
+      </tr>
+      <tr>
+        <th th:text="#{tf}">Telephone</th>
+        <td th:text="*{telephone}" /></td>
+      </tr>
+    </table>
+  
+    <a th:text="#{eo}" th:href="@{{id}/edit(id=${user.id})}" class="btn btn-default">Edit
+      Owner</a>
+      
+  
+  
+    
+  
+  </body>
+
+</html>
