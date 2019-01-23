@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -37,22 +38,24 @@ import java.util.Map;
  * @author Michael Isvy
  */
 @Controller
+//@RequestMapping("app")
 class UserController {
-
     private static final String VIEWS_USER_CREATE_OR_UPDATE_FORM = "users/createOrUpdateUserForm";
     
-
-
-
     @GetMapping("/users/find")
     public String initFindForm(Map<String, Object> model) {
         model.put("user", new Owner());
         return "users/findUsers";
     }
     
-    
-    
-
+    @GetMapping("/login")
+    public ModelAndView login() {
+        ModelAndView mav = new ModelAndView();
+        String errorMessage = "Usuario no autorizado, debe autentificarse";
+        mav.addObject("errorMsg", errorMessage);
+        mav.setViewName("login");
+        return mav;
+    }
 }
 
 

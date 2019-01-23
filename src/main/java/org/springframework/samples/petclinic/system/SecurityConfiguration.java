@@ -1,20 +1,39 @@
 package org.springframework.samples.petclinic.system;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Autowired
+    @Qualifier("UserService")
+    private UserService service;
+    
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(service);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .anyRequest().authenticated()
+        http.csrf().disable()
+            .authorizeRequests().anyRequest().authenticated()
             .and()
-            .formLogin()
-            .and()
-            .httpBasic();
+            .formLogin().loginPage("/login").permitAll()
+            .failureUrl("/login?error=true")
+            .defaultSuccessUrl("/");
+    }
+    
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**", "/static/**");
     }
 }

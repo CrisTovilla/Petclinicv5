@@ -8,27 +8,18 @@
         <link rel="stylesheet" th:href="@{/resources/css/petclinic.css}"/>
     </head>
     <body>
-        <!--center><div>
-            <h2 th:text="#{welcome}" style="font-size: 70px">Inciar Sesión</h2>
-            <br><br>
-            <div class="row">
-                <div class="col-md-12">
-                  <img class="img-responsive" src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
-                </div>
-            </div>
-        </div></center-->
-        
         <div class="container"> 
             <div class="row" style="display:flex; align-items: center; justify-content: center; height: -webkit-fill-available;">
                 <div class="col-md-4 text-center">
                     <img src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
                     <h1>Iniciar Sesión</h1>
-                    <form>
+                    <!--p th:if="${param.error}" th:text="$errorMsg" class="error"></p-->
+                    <form th:action="@{/login}" method="POST">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                            <input type="text" class="form-control" id="inputEmail1" placeholder="Nombre de Usuario" name="username">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" name="password">
                         </div>
                         <button type="submit" class="btn btn-default">Iniciar Sesión</button>
                     </form>
@@ -36,8 +27,8 @@
                 </div>
             </div>
         
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <!--script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script-->
     </body>
 </html>
