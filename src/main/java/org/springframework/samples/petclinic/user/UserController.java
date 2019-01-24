@@ -17,19 +17,20 @@ package org.springframework.samples.petclinic.user;
 
 import org.springframework.samples.petclinic.owner.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.Collection;
+
 import java.util.Map;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+
 
 /**
  * @author Juergen Hoeller
@@ -38,15 +39,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Michael Isvy
  */
 @Controller
-//@RequestMapping("app")
+//@RequestMapping("users")
 class UserController {
     private static final String VIEWS_USER_CREATE_OR_UPDATE_FORM = "users/createOrUpdateUserForm";
+    private final UserRepository users;
+    
+    public UserController(UserRepository clinicService){
+        this.users=clinicService;
+        
+    }
+    
+  
+
     
     @GetMapping("/users/find")
     public String initFindForm(Map<String, Object> model) {
-        model.put("user", new Owner());
+        model.put("user", new UserEntity());
         return "users/findUsers";
     }
+    
+       
+    @GetMapping("/users/new")
+    public String initCreationForm(Map<String, Object> model) {
+        UserEntity user = new UserEntity();
+        model.put("user", user);
+        return VIEWS_USER_CREATE_OR_UPDATE_FORM;
+    }
+    
+    
+    @PostMapping("/users/new")
+    public String processCreationForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result) {
+        
+        if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
+            return VIEWS_USER_CREATE_OR_UPDATE_FORM;
+        } else {
+            user.setActive(true);
+            this.users.save(user);     
+            System.out.println("YAMERO User"+user.getId());
+            return "redirect:/users/" + user.getId();
+        }
+    }
+    
     
     @GetMapping("/login")
     public ModelAndView login() {

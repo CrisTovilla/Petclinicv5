@@ -3,7 +3,7 @@
 
 <body>
 
-  <h2 th:text="#{o}">Owner</h2>
+  <h2 th:text="#{msg_user_title}">User</h2>
   <form th:object="${user}" class="form-horizontal" id="add-user-form" method="post">
     <div class="form-group has-feedback">
       <input
@@ -11,11 +11,13 @@
       <input
         th:replace="~{fragments/inputField :: input (#{ln}, 'lastName', 'text')}" />
       <input
-        th:replace="~{fragments/inputField :: input (#{ad}, 'address', 'text')}" />
+        th:replace="~{fragments/inputField :: input (#{msg_user_input_nameUser}, 'username', 'text')}" />
       <input
-        th:replace="~{fragments/inputField :: input (#{cd}, 'city', 'text')}" />
+        th:replace="~{fragments/inputField :: input (#{msg_user_input_pass}, 'password', 'text')}" />
       <input
-        th:replace="~{fragments/inputField :: input (#{tf}, 'telephone', 'text')}" />
+        th:replace="~{fragments/inputField :: input (#{msg_user_input_city}, 'city', 'text')}" />
+      <input
+        th:replace="~{fragments/inputField :: input (#{msg_user_input_postalCode}, 'postalcode', 'text')}" />
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
