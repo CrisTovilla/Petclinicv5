@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.Collection;
 import org.springframework.samples.petclinic.owner.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +23,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.Map;
+import java.util.Optional;
 import javax.validation.Valid;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -81,6 +85,64 @@ class UserController {
         }
     }
     
+       /**
+     * Custom handler for displaying an owner.
+     *
+     * @param userId the ID of the owner to display
+     * @return a ModelMap with the model attributes for the view
+     */
+    @GetMapping("/users/{userId}")
+    public ModelAndView showOwner(@PathVariable("userId") int userId) {
+        ModelAndView mav = new ModelAndView("users/userDetails");
+        UserEntity user=this.users.findById(userId).get();
+        mav.addObject("user", this.users.findById(userId).get());
+        return mav;
+    }
+    
+    
+    @GetMapping("/users/{userId}/edit")
+    public String initUpdateOwnerForm(@PathVariable("userId") int userId, Model model) {
+        UserEntity user = this.users.findById(userId).get();
+        model.addAttribute("user",user);
+        return VIEWS_USER_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/users/{userId}/edit")
+    public String processUpdateOwnerForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result, @PathVariable("userId") int userId) {
+        if (result.hasErrors()) {
+            return VIEWS_USER_CREATE_OR_UPDATE_FORM;
+        } else {
+            user.setId(userId);
+            this.users.save(user);
+            return "redirect:/users/{userId}";
+        }
+    }
+    
+    @GetMapping("/users")
+    public String processFindForm( @ModelAttribute(value="user") UserEntity user, BindingResult result, Map<String, Object> model) {
+        System.out.println("ASDASD");
+        // allow parameterless GET request for /owners to return all records
+        if (user.getLastName() == null) {
+            user.setLastName(""); // empty string signifies broadest possible search
+        }
+       
+        // find owners by last name
+        Collection<UserEntity> results = this.users.findByLastName(user.getLastName().toString());
+        if (results.isEmpty()) {
+            // no owners found
+            result.rejectValue("lastName", "notFound", "not found");
+            return "users/findUsers";
+        } else if (results.size() == 1) {
+            // 1 owner found
+            user = results.iterator().next();
+            return "redirect:/users/" + user.getId();
+        } else {
+            // multiple owners found
+            model.put("selections", results);
+            return "users/usersList";
+        }
+    }
+
     
     @GetMapping("/login")
     public ModelAndView login() {

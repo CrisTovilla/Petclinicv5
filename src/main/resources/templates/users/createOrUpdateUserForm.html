@@ -22,7 +22,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button
-          th:with="text=${user['new']} ? #{ao} : #{msg_user_update}"
+          th:with="text=${user['new']} ? #{msg_user_add} : #{msg_user_update}"
           class="btn btn-default" type="submit" th:text="${text}"></button>
       </div>
     </div>
