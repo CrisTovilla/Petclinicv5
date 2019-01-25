@@ -18,9 +18,16 @@
         <th th:text="#{cd}">City</th>
         <td th:text="*{user.getCity()}" /></td>
       </tr>
+      <tr>
+        <th th:text="#{msg_user_postalCode}">PostalCode</th>
+        <td><b th:text="*{user.getPostalcode()}"></b></td>
+      </tr>
     </table>
   
     <a th:text="#{msg_user_edit}" th:href="@{{id}/edit(id=${user.id})}" class="btn btn-default">Edit
+      User</a>
+    
+    <a th:text="#{msg_user_delete}" th:href="@{{id}/delete(id=${user.id})}" class="btn btn-danger">Delete
       User</a>
       
   

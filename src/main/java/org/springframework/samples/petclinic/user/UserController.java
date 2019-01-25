@@ -27,6 +27,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -73,9 +74,13 @@ class UserController {
     
     @PostMapping("/users/new")
     public String processCreationForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result) {
-        
-        if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
+        UserEntity userNameExist=this.users.existUserName(user.getUsername().toString());
+        if (result.hasErrors() || userNameExist!=null) {
+            if(userNameExist!=null){
+                result.rejectValue("username","duplicate");
+                System.out.println("errorr" +result.getAllErrors());
+            } 
+            System.out.println("errorr" +result.getAllErrors());
             return VIEWS_USER_CREATE_OR_UPDATE_FORM;
         } else {
             user.setActive(true);
@@ -83,6 +88,7 @@ class UserController {
             System.out.println("YAMERO User"+user.getId());
             return "redirect:/users/" + user.getId();
         }
+        
     }
     
        /**
@@ -119,30 +125,32 @@ class UserController {
     }
     
     @GetMapping("/users")
-    public String processFindForm( @ModelAttribute(value="user") UserEntity user, BindingResult result, Map<String, Object> model) {
-        System.out.println("ASDASD");
-        // allow parameterless GET request for /owners to return all records
+    public String processFindForm( @ModelAttribute(value="user") UserEntity user, BindingResult result, Map<String, Object> model) {      
         if (user.getLastName() == null) {
-            user.setLastName(""); // empty string signifies broadest possible search
+            user.setLastName("");
         }
-       
-        // find owners by last name
+        
         Collection<UserEntity> results = this.users.findByLastName(user.getLastName().toString());
         if (results.isEmpty()) {
-            // no owners found
             result.rejectValue("lastName", "notFound", "not found");
             return "users/findUsers";
-        } else if (results.size() == 1) {
-            // 1 owner found
+        } else if (results.size() == 1) {          
             user = results.iterator().next();
             return "redirect:/users/" + user.getId();
         } else {
-            // multiple owners found
+      
             model.put("selections", results);
             return "users/usersList";
         }
     }
 
+    @GetMapping("/users/{userId}/delete")
+    public String deleteVet(@ModelAttribute(value="user") UserEntity user, BindingResult result,@PathVariable("userId") int userId){
+        user = this.users.findById(userId).get();
+        user.setActive(false); 
+        this.users.save(user);
+        return "redirect:/users?lastName=";
+    }
     
     @GetMapping("/login")
     public ModelAndView login() {

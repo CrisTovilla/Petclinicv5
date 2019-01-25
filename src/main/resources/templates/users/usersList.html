@@ -9,17 +9,22 @@
     <table id="users" class="table table-striped">
         <thead>
         <tr>
-            <th th:text="#{fn}" style="width: 150px;">Name</th>
-            <th th:text="#{cd}" >City</th>
+            <th th:text="#{msg_user_nameUser}" style="width: 150px;">UserName</th>
+            <th th:text="#{fn}" >Name</th>
+            <th th:text="#{msg_user_city}" >City</th>
+            <th th:text="#{msg_user_postalCode}" >PostalCode</th>
+            
 
         </tr>
         </thead>
         <tbody>
           <tr th:each="user : ${selections}">
-              <td>
-                  <a th:href="@{/users/__${user.id}__}" th:text="*{user.getFirstName() + ' ' + user.getLastName()}"/></a>
+               <td th:text="${user.getUsername()}"/>
+              <td>  
+                  <a th:href="@{/users/__${user.id}__}" th:text="*{user.firstName+' '+user.lastName}"/></a>
               </td>
               <td th:text="${user.getCity()}"/>
+               <td th:text="${user.getPostalcode()}"/>
           </tr>
         </tbody>
     </table>
