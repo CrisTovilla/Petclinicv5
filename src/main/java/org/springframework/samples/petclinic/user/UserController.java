@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.io.IOException;
 import java.util.Collection;
 import org.springframework.samples.petclinic.owner.*;
 import org.springframework.stereotype.Controller;
@@ -73,19 +74,20 @@ class UserController {
     
     
     @PostMapping("/users/new")
-    public String processCreationForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result) {
+    public String processCreationForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result) throws IOException {
         UserEntity userNameExist=this.users.existUserName(user.getUsername().toString());
-        if (result.hasErrors() || userNameExist!=null) {
+        PostalCodeService code=new PostalCodeService();
+        boolean existPostalCode=code.existPostalCode(user.getPostalcode().toString());
+        if (result.hasErrors() || userNameExist!=null || !existPostalCode) {
             if(userNameExist!=null){
                 result.rejectValue("username","duplicate");
-                System.out.println("errorr" +result.getAllErrors());
+            }else if(!existPostalCode){
+                result.rejectValue("postalcode","notFound");             
             } 
-            System.out.println("errorr" +result.getAllErrors());
             return VIEWS_USER_CREATE_OR_UPDATE_FORM;
         } else {
             user.setActive(true);
             this.users.save(user);     
-            System.out.println("YAMERO User"+user.getId());
             return "redirect:/users/" + user.getId();
         }
         
@@ -114,13 +116,31 @@ class UserController {
     }
 
     @PostMapping("/users/{userId}/edit")
-    public String processUpdateOwnerForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result, @PathVariable("userId") int userId) {
-        if (result.hasErrors()) {
+    public String processUpdateOwnerForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result, @PathVariable("userId") int userId) throws IOException {
+        UserEntity userActual=this.users.findById(userId).get();
+        UserEntity userNameExist;
+        System.out.println(user.getUsername().toString()+"\n"+userActual.getUsername().toString());
+        if(user.getUsername().equals(userActual.getUsername())){
+            System.out.println("Iguales");
+            userNameExist=null;
+        }else{
+             System.out.println("No Iguales");
+            userNameExist=this.users.existUserName(user.getUsername().toString());
+        }      
+        PostalCodeService code=new PostalCodeService();
+        boolean existPostalCode=code.existPostalCode(user.getPostalcode().toString());
+        if (result.hasErrors() || userNameExist!=null || !existPostalCode) {
+            if(userNameExist!=null){
+                result.rejectValue("username","duplicate");
+            }else if(!existPostalCode){
+                result.rejectValue("postalcode","notFound");             
+            } 
             return VIEWS_USER_CREATE_OR_UPDATE_FORM;
         } else {
             user.setId(userId);
-            this.users.save(user);
-            return "redirect:/users/{userId}";
+            user.setActive(true);
+            this.users.save(user);     
+            return "redirect:/users/" + user.getId();
         }
     }
     

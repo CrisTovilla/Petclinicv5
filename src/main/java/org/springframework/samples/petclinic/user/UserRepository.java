@@ -29,5 +29,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Serializable> 
     @Transactional(readOnly = true)
     UserEntity existUserName(@Param("userName") String userName);
     
-    UserEntity save(UserEntity user);
+    UserEntity save(UserEntity user);          
 }
