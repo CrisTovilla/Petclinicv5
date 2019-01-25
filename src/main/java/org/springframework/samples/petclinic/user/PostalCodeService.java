@@ -21,15 +21,20 @@ public class PostalCodeService {
     boolean existPostalCode(String postalCode) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl = "http://api.geonames.org/postalCodeLookupJSON?postalcode=" + postalCode + "&country=MX&username=petclinicv5";
-        ResponseEntity<String> response
-                = restTemplate.getForEntity(fooResourceUrl, String.class);
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(response.getBody());
-        if (response.getStatusCode() == HttpStatus.OK && root.path("postalcodes").get(0)!=null) { 
-            return true;
+        try {
+            ResponseEntity<String> response
+                    = restTemplate.getForEntity(fooResourceUrl, String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+            if (response.getStatusCode() == HttpStatus.OK && root.path("postalcodes").get(0) != null) {
+                return true;
+            }
+            System.out.println("Es falso Noe xiste");
+            return false;
+        } catch (Exception e) {
+            return false;
         }
-        System.out.println("Es falso Noe xiste");
-        return false;
+
     }
 
 }
