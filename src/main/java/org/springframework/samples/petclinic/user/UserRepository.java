@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Serializable> 
      * @return a Collection of matching {@link User} (or an empty Collection if none
      * found)
      */
-    @Query("SELECT  user FROM UserEntity user where user.lastName LIKE :lastName% and user.active != 0")
+    @Query("SELECT  user FROM UserEntity user where user.lastName LIKE :lastName% ")
     @Transactional(readOnly = true)
     Collection<UserEntity> findByLastName(@Param("lastName") String lastName);
     

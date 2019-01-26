@@ -100,7 +100,7 @@ class UserController {
      * @return a ModelMap with the model attributes for the view
      */
     @GetMapping("/users/{userId}")
-    public ModelAndView showOwner(@PathVariable("userId") int userId) {
+    public ModelAndView showUser(@PathVariable("userId") int userId) {
         ModelAndView mav = new ModelAndView("users/userDetails");
         UserEntity user=this.users.findById(userId).get();
         mav.addObject("user", this.users.findById(userId).get());
@@ -109,14 +109,14 @@ class UserController {
     
     
     @GetMapping("/users/{userId}/edit")
-    public String initUpdateOwnerForm(@PathVariable("userId") int userId, Model model) {
+    public String initUpdateUserForm(@PathVariable("userId") int userId, Model model) {
         UserEntity user = this.users.findById(userId).get();
         model.addAttribute("user",user);
         return VIEWS_USER_CREATE_OR_UPDATE_FORM;
     }
 
     @PostMapping("/users/{userId}/edit")
-    public String processUpdateOwnerForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result, @PathVariable("userId") int userId) throws IOException {
+    public String processUpdateUserForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result, @PathVariable("userId") int userId) throws IOException {
         UserEntity userActual=this.users.findById(userId).get();
         UserEntity userNameExist;
         System.out.println(user.getUsername().toString()+"\n"+userActual.getUsername().toString());
@@ -158,16 +158,31 @@ class UserController {
             user = results.iterator().next();
             return "redirect:/users/" + user.getId();
         } else {
-      
             model.put("selections", results);
             return "users/usersList";
         }
     }
+    
+    @GetMapping("/users/report")
+    public String processReport( Map<String, Object> model) {      
+        Collection<UserEntity> results = this.users.findByLastName("");
+        model.put("selections", results);
+        return "users/usersReport";
+        
+    }
 
-    @GetMapping("/users/{userId}/delete")
-    public String deleteVet(@ModelAttribute(value="user") UserEntity user, BindingResult result,@PathVariable("userId") int userId){
+    @GetMapping("/users/{userId}/deactivate")
+    public String deactivateUser(@ModelAttribute(value="user") UserEntity user, BindingResult result,@PathVariable("userId") int userId){
         user = this.users.findById(userId).get();
         user.setActive(false); 
+        this.users.save(user);
+        return "redirect:/users?lastName=";
+    }
+    
+    @GetMapping("/users/{userId}/activate")
+    public String activateUser(@ModelAttribute(value="user") UserEntity user, BindingResult result,@PathVariable("userId") int userId){
+        user = this.users.findById(userId).get();
+        user.setActive(true); 
         this.users.save(user);
         return "redirect:/users?lastName=";
     }
