@@ -8,6 +8,7 @@ package org.springframework.samples.petclinic.user;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Iterator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -16,9 +17,10 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author CristopherT
  */
-public class PostalCodeService {
+public class PostalCodeRest {
 
-    boolean existPostalCode(String postalCode) throws IOException {
+    boolean consult(String postalCode,String city) throws IOException {
+        
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl = "http://api.geonames.org/postalCodeLookupJSON?postalcode=" + postalCode + "&country=MX&username=petclinicv5";
         try {
@@ -26,9 +28,23 @@ public class PostalCodeService {
                     = restTemplate.getForEntity(fooResourceUrl, String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
+            System.out.println(root.path("postalcodes"));
+             System.out.println("city: " + city);
+            String city_json;
+            for (Iterator<JsonNode> i = root.path("postalcodes").iterator(); i.hasNext();) {
+                JsonNode item = i.next();            
+                System.out.println(item.findValue("adminName3"));
+                city_json=item.findValue("adminName3").textValue();
+                 System.out.println("city: " + city_json);
+                if(city_json.equalsIgnoreCase(city)){
+                     System.out.println("True");
+                     return true;
+                }               
+            }
+            /*
             if (response.getStatusCode() == HttpStatus.OK && root.path("postalcodes").get(0) != null) {
                 return true;
-            }
+            }*/
             System.out.println("Es falso Noe xiste");
             return false;
         } catch (Exception e) {

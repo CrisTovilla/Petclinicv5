@@ -17,24 +17,20 @@ package org.springframework.samples.petclinic.user;
 
 import java.io.IOException;
 import java.util.Collection;
-import org.springframework.samples.petclinic.owner.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.Map;
-import java.util.Optional;
 import javax.validation.Valid;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 
 
@@ -76,8 +72,8 @@ class UserController {
     @PostMapping("/users/new")
     public String processCreationForm(@Valid @ModelAttribute(value="user") UserEntity user, BindingResult result) throws IOException {
         UserEntity userNameExist=this.users.existUserName(user.getUsername().toString());
-        PostalCodeService code=new PostalCodeService();
-        boolean existPostalCode=code.existPostalCode(user.getPostalcode().toString());
+        UserService rest=new UserService();
+       boolean existPostalCode=rest.existPostalCode(user.getPostalcode().toString(),user.getCity().toString());
         if (result.hasErrors() || userNameExist!=null || !existPostalCode) {
             if(userNameExist!=null){
                 result.rejectValue("username","duplicate");
@@ -87,6 +83,8 @@ class UserController {
             return VIEWS_USER_CREATE_OR_UPDATE_FORM;
         } else {
             user.setActive(true);
+            String hashpw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            user.setPassword(hashpw);
             this.users.save(user);     
             return "redirect:/users/" + user.getId();
         }
@@ -127,8 +125,8 @@ class UserController {
              System.out.println("No Iguales");
             userNameExist=this.users.existUserName(user.getUsername().toString());
         }      
-        PostalCodeService code=new PostalCodeService();
-        boolean existPostalCode=code.existPostalCode(user.getPostalcode().toString());
+        UserService rest=new UserService();
+        boolean existPostalCode=rest.existPostalCode(user.getPostalcode().toString(),user.getCity().toString());
         if (result.hasErrors() || userNameExist!=null || !existPostalCode) {
             if(userNameExist!=null){
                 result.rejectValue("username","duplicate");
@@ -139,6 +137,8 @@ class UserController {
         } else {
             user.setId(userId);
             user.setActive(true);
+            String hashpw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            user.setPassword(hashpw);
             this.users.save(user);     
             return "redirect:/users/" + user.getId();
         }
