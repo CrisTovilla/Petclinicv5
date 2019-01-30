@@ -358,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `city` varchar(50) NOT NULL,
   `postalcode` int(11) NOT NULL,
