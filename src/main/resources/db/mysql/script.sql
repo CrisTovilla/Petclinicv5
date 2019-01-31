@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS petclinic;
+﻿CREATE DATABASE IF NOT EXISTS petclinic;
 
 ALTER DATABASE petclinic
   DEFAULT CHARACTER SET utf8
@@ -351,14 +351,27 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-CREATE TABLE `user` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `username` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- Dumping structure for table petclinic.user
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(30) DEFAULT NULL,
+  `last_name` varchar(30) DEFAULT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `postalcode` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `username`, `password`, `active`) VALUES
-(1, 'admin', 'admin', true),
-(2, 'armando', 'armando', true),
-(3, 'jose', 'jose', false);
+-- Dumping data for table petclinic.user: ~12 rows (approximately)
+DELETE FROM `user`;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `city`, `postalcode`) VALUES
+	(1, 'José Armando', 'Pascacio Glaizar', 'admin', 'admin', 1, 'Tuxtla', 29014);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

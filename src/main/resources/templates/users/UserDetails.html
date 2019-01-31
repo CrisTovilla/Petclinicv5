@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+  th:replace="~{fragments/layout :: layout (~{::body},'users')}">
 
   <body>
   
   
-    <h2 th:text="#{oi}">Owner Informationss</h2>
+    <h2 th:text="#{msg_user_details_title}">User Info</h2>
   
   
-    <table class="table table-striped" th:object="${owner}">
+    <table class="table table-striped" >
       <tr>
         <th th:text="#{fn}">Name</th>
-        <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
-      </tr>
-      <tr>
-        <th th:text="#{ad}">Address</th>
-        <td th:text="*{address}" /></td>
+        <td><b th:text="*{user.getFirstName()}"></b></td>
       </tr>
       <tr>
         <th th:text="#{cd}">City</th>
-        <td th:text="*{city}" /></td>
+        <td th:text="*{user.getCity()}" /></td>
       </tr>
       <tr>
-        <th th:text="#{tf}">Telephone</th>
-        <td th:text="*{telephone}" /></td>
+        <th th:text="#{msg_user_postalCode}">PostalCode</th>
+        <td><b th:text="*{user.getPostalcode()}"></b></td>
       </tr>
     </table>
   
-    <a th:text="#{eo}" th:href="@{{id}/edit(id=${user.id})}" class="btn btn-default">Edit
-      Owner</a>
+    <a th:text="#{msg_user_edit}" th:href="@{{id}/edit(id=${user.id})}" class="btn btn-default">Edit
+      User</a>
+    
+    
       
   
   

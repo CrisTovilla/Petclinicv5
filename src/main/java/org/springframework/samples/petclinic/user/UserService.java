@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.user;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class UserService implements UserDetailsService {
     public List<GrantedAuthority> buildGranted() {
         List<GrantedAuthority> auths = new ArrayList<>();
         return auths;
+    }
+    
+    public boolean existPostalCode(String postalCode,String city) throws IOException{
+        PostalCodeRest code=new PostalCodeRest();
+        return  code.consult(postalCode,city);
     }
     
     @Bean

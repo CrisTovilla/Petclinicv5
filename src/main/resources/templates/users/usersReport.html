@@ -14,7 +14,7 @@
             <th th:text="#{msg_user_city}" >City</th>
             <th th:text="#{msg_user_postalCode}" >PostalCode</th>
             <th th:text="#{msg_user_status}" >Status</th>
-            <th></th>
+           
             
 
         </tr>
@@ -22,17 +22,11 @@
         <tbody>
           <tr th:each="user : ${selections}">
                <td th:text="${user.getUsername()}"/>
-              <td>  
-                  <a th:href="@{/users/__${user.id}__}" th:text="*{user.firstName+' '+user.lastName}"/></a>
-              </td>
+              <td th:text="*{user.firstName+' '+user.lastName}" />  
               <td th:text="${user.getCity()}"/>
               <td th:text="${user.getPostalcode()}"/>
               <td th:text="${user.isActive()} ? #{msg_status_activate_user} : #{msg_status_deactivate_user}"/>
-              <td>
-                <a th:href="${user.isActive()} ? @{/users/__${user.id}__/deactivate} : @{/users/__${user.id}__/activate}"
-                  th:with="text=${user.isActive()} ? #{msg_deactivate_user} : #{msg_activate_user}"
-                  class="btn" th:classappend="${!user.isActive()} ?  btn-success :  btn-danger"  type="submit" th:text="${text}"></a>
-              </td>
+         
               
           </tr>
         </tbody>
