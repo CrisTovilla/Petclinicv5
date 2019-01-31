@@ -51,8 +51,15 @@ class UserController {
     @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView mav = new ModelAndView();
-        String errorMessage = "Usuario no autorizado, debe autentificarse";
+        String errorMessage = "Usuario o contraseña incorrectos";
         mav.addObject("errorMsg", errorMessage);
+        mav.setViewName("login");
+        return mav;
+    }
+    
+    @GetMapping("/logout")
+    public ModelAndView logout() {
+        ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         return mav;
     }

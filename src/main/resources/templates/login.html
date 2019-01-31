@@ -13,7 +13,7 @@
                 <div class="col-md-4 text-center">
                     <img src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
                     <h1>Iniciar Sesión</h1>
-                    <!--p th:if="${param.error}" th:text="$errorMsg" class="error"></p-->
+                    <div th:if="${param.error}" th:text="${errorMsg}" class="alert alert-danger fade in"></div>
                     <form th:action="@{/login}" method="POST">
                         <div class="form-group">
                             <input type="text" class="form-control" id="inputEmail1" placeholder="Nombre de Usuario" name="username">
