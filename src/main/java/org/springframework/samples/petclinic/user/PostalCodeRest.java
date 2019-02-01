@@ -28,8 +28,6 @@ public class PostalCodeRest {
                     = restTemplate.getForEntity(fooResourceUrl, String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
-            System.out.println(root.path("postalcodes"));
-             System.out.println("city: " + city);
             String city_json;
             for (Iterator<JsonNode> i = root.path("postalcodes").iterator(); i.hasNext();) {
                 JsonNode item = i.next();            
@@ -40,12 +38,7 @@ public class PostalCodeRest {
                      System.out.println("True");
                      return true;
                 }               
-            }
-            /*
-            if (response.getStatusCode() == HttpStatus.OK && root.path("postalcodes").get(0) != null) {
-                return true;
-            }*/
-            System.out.println("Es falso Noe xiste");
+            }        
             return false;
         } catch (Exception e) {
             return false;
