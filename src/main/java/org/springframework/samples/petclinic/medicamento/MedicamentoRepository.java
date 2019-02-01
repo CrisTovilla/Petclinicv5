@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.medicamento;
 
 import org.springframework.samples.petclinic.owner.*;
 import java.util.Collection;
+import org.springframework.dao.DataAccessException;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -61,4 +62,7 @@ public interface MedicamentoRepository extends Repository<Medicamento, Integer> 
     void save(Medicamento medicamento);
     
     void delete(Medicamento medicamento);
+    
+    @Transactional(readOnly = true)
+    Collection<Medicamento> findAll() throws DataAccessException;
 }
