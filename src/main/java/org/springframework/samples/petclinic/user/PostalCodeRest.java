@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Iterator;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,19 +17,17 @@ import org.springframework.web.client.RestTemplate;
  * @author CristopherT
  */
 public class PostalCodeRest {
-
     boolean consult(String postalCode,String city) throws IOException {
-        
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl = "http://api.geonames.org/postalCodeLookupJSON?postalcode=" + postalCode + "&country=MX&username=petclinicv5";
         try {
-            ResponseEntity<String> response
-                    = restTemplate.getForEntity(fooResourceUrl, String.class);
+            ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
             System.out.println(root.path("postalcodes"));
-             System.out.println("city: " + city);
+            System.out.println("city: " + city);
             String city_json;
+            
             for (Iterator<JsonNode> i = root.path("postalcodes").iterator(); i.hasNext();) {
                 JsonNode item = i.next();            
                 System.out.println(item.findValue("adminName3"));
@@ -47,10 +44,9 @@ public class PostalCodeRest {
             }*/
             System.out.println("Es falso Noe xiste");
             return false;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             return false;
         }
-
     }
-
 }

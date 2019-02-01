@@ -3,10 +3,6 @@ package org.springframework.samples.petclinic.user;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -15,7 +11,6 @@ import org.springframework.samples.petclinic.model.Person;
 @Entity
 @Table(name="user")
 public class UserEntity extends Person implements Serializable {
-
     @Column(name="username")
     @NotEmpty
     private String username;
@@ -35,8 +30,6 @@ public class UserEntity extends Person implements Serializable {
     
     @Column(name="active",columnDefinition="default 'true'")
     private boolean active;
-
-   
 
     public String getUsername() {
         return username;
@@ -77,7 +70,4 @@ public class UserEntity extends Person implements Serializable {
     public void setPostalcode(String postalcode) {
         this.postalcode = postalcode;
     }
-    
-    
-    
 }

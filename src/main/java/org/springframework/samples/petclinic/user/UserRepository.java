@@ -12,15 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<UserEntity, Serializable> {
     public abstract UserEntity findByUsername(String username);
     
-    
-    
-        /**
-     * Retrieve {@link User}s from the data store by last name, returning all users
-     * whose last name <i>starts</i> with the given name.
-     * @param lastName Value to search for
-     * @return a Collection of matching {@link User} (or an empty Collection if none
-     * found)
-     */
+    /**
+    * Retrieve {@link User}s from the data store by last name, returning all users
+    * whose last name <i>starts</i> with the given name.
+    * @param lastName Value to search for
+    * @return a Collection of matching {@link User} (or an empty Collection if none
+    * found)
+    */
     @Query("SELECT  user FROM UserEntity user where user.lastName LIKE :lastName% ")
     @Transactional(readOnly = true)
     Collection<UserEntity> findByLastName(@Param("lastName") String lastName);

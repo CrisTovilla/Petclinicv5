@@ -369,9 +369,18 @@ CREATE TABLE IF NOT EXISTS `user` (
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `active`, `city`, `postalcode`) VALUES
-	(1, 'José Armando', 'Pascacio Glaizar', 'admin', 'admin', 1, 'Tuxtla', 29014);
+	(1, 'Administrador', 'Administrador', 'admin', '$2a$10$RYoeENHpOmUi/68x6WELHe6tDZHYIrAvm29sCVmp/fMtK4OJRixju', 1, 'Tuxtla Gutiérrez', 29000);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+DROP TABLE IF EXISTS `logins`;
+CREATE TABLE IF NOT EXISTS `logins` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `date` varchar(50) NOT NULL,
+  `login` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'rep')}">
+    <body>
+        <h2 th:text="'Inicios de Sesión'">Inicios de Sesión</h2>
+
+        <table id="medicamentos" class="table table-striped">
+            <thead>
+                <tr>
+                    <th th:text="'Usuario'" style="width: 150px;">Usuario</th>
+                    <th th:text="'Fecha'" style="width: 200px;">Fecha</th>
+                    <th th:text="'Login'">Login</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr th:each="login : ${selections}">
+                    <td th:text="${login.username}"></td>
+                    <td th:text="${login.date}"/>
+                    <td th:text="${login.login}"/>      
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
