@@ -24,6 +24,10 @@ public class PostalCodeRest {
             ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 6aaed20f8c779075cc3a058116ea1e20ad713f62
             String city_json;
             
             for (Iterator<JsonNode> i = root.path("postalcodes").iterator(); i.hasNext();) {
