@@ -19,12 +19,9 @@ package org.springframework.samples.petclinic;
 import java.io.File;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-<<<<<<< HEAD
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-=======
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.medicamento.MedicamentoController;
->>>>>>> origin/MarcoIDS
 
 /**
  * PetClinic Spring Boot Application.
@@ -32,12 +29,8 @@ import org.springframework.samples.petclinic.medicamento.MedicamentoController;
  * @author Dave Syer
  *
  */
-<<<<<<< HEAD
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-=======
-@SpringBootApplication
 @ComponentScan({"org.springframework.samples.petclinic","controller"})
->>>>>>> origin/MarcoIDS
 public class PetClinicApplication {
 
     public static void main(String[] args) {

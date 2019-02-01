@@ -29,11 +29,17 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `medicamento`
 --
 
+DROP TABLE IF EXISTS `medicamento`;
 CREATE TABLE `medicamento` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) NOT NULL,
   `ingrediente_activo` varchar(40) NOT NULL,
-  `presentacion` varchar(40) NOT NULL
+  `presentacion` varchar(40) NOT NULL,
+  `descripcion` Text NOT NULL,
+  `precio` int(20) NOT NULL,
+  `existencia` int(50) NOT NULL,
+  `fotografia` varchar(255) NOT NULL,
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
