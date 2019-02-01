@@ -5,6 +5,10 @@
  */
 package org.springframework.samples.petclinic.medicamento;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -26,8 +33,10 @@ import java.util.Map;
 @Controller
 public class MedicamentoController {
     private static final String VIEW_MEDICAMENTOS = "medicamentos/createOrUpdateMedicamentoForm";
+    public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/static/resources/images/Medicinas";
     private final MedicamentoRepository medicamento;
     
+        
     public MedicamentoController(MedicamentoRepository medicinas) {
         this.medicamento = medicinas;
     }
@@ -39,16 +48,35 @@ public class MedicamentoController {
 
     @GetMapping("/medicamento/new")
     public String initCreationForm(Map<String, Object> model) {
+               
+        
+        
         Medicamento medicamento = new Medicamento();
         model.put("medicamento", medicamento);
         return VIEW_MEDICAMENTOS;
     }
 
     @PostMapping("/medicamento/new")
-    public String processCreationForm(@Valid Medicamento medicamento, BindingResult result) {
+    public String processCreationForm(@Valid Medicamento medicamento, BindingResult result, Model model2, @RequestParam("files") MultipartFile[] files) {
+        
+        StringBuilder fileNames = new StringBuilder();
+        String path = null; 
+        for(MultipartFile file: files){
+            Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
+            path=file.getOriginalFilename();
+            medicamento.setFotografia(path);
+            fileNames.append(file.getOriginalFilename());
+            try{
+               Files.write(fileNameAndPath, file.getBytes());
+            }catch(IOException e){
+                System.out.println(e);
+            }     
+            
+        }
+        
         if (result.hasErrors()) {
             return VIEW_MEDICAMENTOS;
-        } else {
+        } else {            
             this.medicamento.save(medicamento);
             return "redirect:/medicamento/find";
         }
@@ -119,7 +147,23 @@ public class MedicamentoController {
     }
 
     @PostMapping("/medicamento/{medicamentoId}/edit")
-    public String processUpdateMedicamentoForm(@Valid Medicamento medicamento, BindingResult result, @PathVariable("medicamentoId") int medicamentoId) {
+    public String processUpdateMedicamentoForm(@Valid Medicamento medicamento, BindingResult result, @PathVariable("medicamentoId") int medicamentoId, Model model2, @RequestParam("files") MultipartFile[] files) {
+        
+         StringBuilder fileNames = new StringBuilder();
+        String path = null; 
+        for(MultipartFile file: files){
+            Path fileNameAndPath = Paths.get(uploadDirectory,file.getOriginalFilename());
+            path=file.getOriginalFilename();
+            medicamento.setFotografia(path);
+            fileNames.append(file.getOriginalFilename());
+            try{
+               Files.write(fileNameAndPath, file.getBytes());
+            }catch(IOException e){
+                System.out.println(e);
+            }     
+            
+        }
+        
         if (result.hasErrors()) {
             return VIEW_MEDICAMENTOS;
         } else {
@@ -143,6 +187,13 @@ public class MedicamentoController {
         this.medicamento.delete(medicamento);
                 
         return "redirect:/medicamento?nombre=";
+    }
+    
+    @GetMapping("/medicamentosReport")
+    public String showMedicamentos(Medicamento medicamento, BindingResult result, Map<String, Object> model) {
+        Collection<Medicamento> results = this.medicamento.findAll();
+        model.put("selections", results);
+        return "medicamentos/medicamentosList";
     }
         
 }

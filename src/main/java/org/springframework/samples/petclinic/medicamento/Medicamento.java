@@ -43,6 +43,19 @@ public class Medicamento extends BaseEntity{
     @Column(name = "presentacion")
     @NotEmpty
     public String presentacion;
+    
+    @Column(name = "descripcion")
+    public String descripcion;
+    
+    @Column(name = "precio")
+    public Integer precio;
+    
+    @Column(name = "existencia")
+    public Integer existencia;   
+    
+    @Column(name = "fotografia")
+    public String fotografia;
+    
 
     public String getNombre() {
         return nombre;
@@ -56,6 +69,34 @@ public class Medicamento extends BaseEntity{
         return ingrediente_activo;
     }
 
+    public String getFotografia() {
+        return fotografia;
+    }
+    
+    public Integer getPrecio() {
+        return precio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public Integer getExistencia() {
+        return existencia;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setExistencia(Integer existencia) {
+        this.existencia = existencia;
+    }
+
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
+    }
+    
     public void setIngrediente_activo(String ingrediente_activo) {
         this.ingrediente_activo = ingrediente_activo;
     }
@@ -67,6 +108,11 @@ public class Medicamento extends BaseEntity{
     public void setPresentacion(String presentacion) {
         this.presentacion = presentacion;
     }
+
+    public void setFotografia(String fotografia) {
+        this.fotografia = fotografia;
+    }
+    
     
     
 

@@ -16,8 +16,11 @@
 
 package org.springframework.samples.petclinic;
 
+import java.io.File;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.medicamento.MedicamentoController;
 
 /**
  * PetClinic Spring Boot Application.
@@ -26,9 +29,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@ComponentScan({"org.springframework.samples.petclinic","controller"})
 public class PetClinicApplication {
 
     public static void main(String[] args) {
+        new File(MedicamentoController.uploadDirectory).mkdir();
         SpringApplication.run(PetClinicApplication.class, args);
     }
 

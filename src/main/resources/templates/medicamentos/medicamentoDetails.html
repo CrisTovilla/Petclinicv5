@@ -21,8 +21,25 @@
       <tr>
         <th th:text="#{prest}">Presentacion</th>
         <td th:text="*{presentacion}" /></td>
+      </tr>      
+      <tr>
+        <th th:text="#{describe}">Descripcion</th>
+        <td th:text="*{Descripcion}" /></td>
       </tr>
+      <tr>
+        <th th:text="#{price}">Precio</th>
+        <td th:text="*{Precio}" /></td>
+      </tr>
+      <tr>
+        <th th:text="#{exist}">Existencia</th>
+        <td th:text="*{Existencia}" /></td>
+      </tr>
+       
+      <td><img th:src="@{'/resources/images/Medicinas/' + ${medicamento.fotografia}}"/></td>
+       
     </table>
+    
+   
   
     <a th:text="#{em}" th:href="@{{id}/edit(id=${medicamento.id})}" class="btn btn-default">Edit
       Medicamento</a>
