@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,7 +72,7 @@ public class MedicamentoController {
             
         }
         
-        if (result.hasErrors()) {
+        if (result.hasErrors() || path==null) {
             return VIEW_MEDICAMENTOS;
         } else {            
             this.medicamento.save(medicamento);

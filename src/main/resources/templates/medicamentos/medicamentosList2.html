@@ -15,11 +15,9 @@ th:replace="~{fragments/layout :: layout (~{::body},'rep')}">
         </thead>
         <tbody>
           <tr th:each="medicamento : ${selections}">
-              <td th:text="${medicamento.nombre}">
-          
-              </td>
+              <td th:text="${medicamento.nombre}"></td>
               <td th:text="${medicamento.ingrediente_activo}"/>
-              <td th:text="${medicamento.presentacion}"/>      
+              <td th:text="${medicamento.presentacion}"/>
           </tr>
         </tbody>
     </table>

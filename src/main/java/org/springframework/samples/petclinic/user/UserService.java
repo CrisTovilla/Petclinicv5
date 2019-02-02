@@ -37,14 +37,26 @@ public class UserService implements UserDetailsService {
                                             user.isActive(), user.isActive(), user.isActive(), 
                                             user.isActive(), buildGranted());
           
-            LoginsEntity login = new LoginsEntity();
-            DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            if(user.isActive()) {
+                LoginsEntity login = new LoginsEntity();
+                DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+                login.setUsername(username);
+                login.setDate(df.format(new Date()));
+                login.setLogin("Exitoso");
+
+                loginsRepository.save(login);
+            }
+            else {
+                LoginsEntity login = new LoginsEntity();
+                DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+                login.setUsername(username);
+                login.setDate(df.format(new Date()));
+                login.setLogin("Usuario Inactivo");
             
-            login.setUsername(username);
-            login.setDate(df.format(new Date()));
-            login.setLogin("Exitoso");
-            
-            loginsRepository.save(login);
+                loginsRepository.save(login);
+            }
    
             return response;
         }

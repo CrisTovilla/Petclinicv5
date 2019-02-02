@@ -45,13 +45,16 @@ public class Medicamento extends BaseEntity{
     public String presentacion;
     
     @Column(name = "descripcion")
+    @NotEmpty
     public String descripcion;
     
     @Column(name = "precio")
-    public Integer precio;
+    @NotEmpty
+    public String precio;
     
     @Column(name = "existencia")
-    public Integer existencia;   
+    @NotEmpty
+    public String existencia;   
     
     @Column(name = "fotografia")
     public String fotografia;
@@ -73,7 +76,7 @@ public class Medicamento extends BaseEntity{
         return fotografia;
     }
     
-    public Integer getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
@@ -81,7 +84,7 @@ public class Medicamento extends BaseEntity{
         return descripcion;
     }
 
-    public Integer getExistencia() {
+    public String getExistencia() {
         return existencia;
     }
 
@@ -89,11 +92,11 @@ public class Medicamento extends BaseEntity{
         this.descripcion = descripcion;
     }
 
-    public void setExistencia(Integer existencia) {
+    public void setExistencia(String existencia) {
         this.existencia = existencia;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
     
